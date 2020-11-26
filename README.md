@@ -10,9 +10,18 @@ The purpose of this Operator is to allow managing Ansible Platform job resources
 
 Currently two CRDs are implemented with backing roles:
 
-* Job Template [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Job Template against the referenced Tower cluster
+
 * AnsibleJob [CRD](deploy/crds/tower.ansible.com_joblaunch_crd.yaml) and [Role](roles/job/tasks/main.yml) given a Job Template name will run a job on the referenced Tower cluster
+* Credential [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Credential against the referenced Tower cluster
+* Inventory [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Inventory against the referenced Tower cluster
+* Job Template [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Job Template against the referenced Tower cluster
 * Module [CRD](deploy/crds/tower.ansible.com_modules_crd.yaml) and [Role](roles/module/tasks/main.yml) given a Module name will run the module against the referenced Tower cluster
+* Organization [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Organization against the referenced Tower cluster
+* Permission [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Permission against the referenced Tower cluster
+* Project [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Project against the referenced Tower cluster
+* Team [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a Team against the referenced Tower cluster
+* User [CRD](deploy/crds/tower.ansible.com_jobtemplates_crd.yaml) and [Role](roles/jobtemplate/tasks/main.yml) will create a User against the referenced Tower cluster
+
 
 ## Connectivity Secrets
 
