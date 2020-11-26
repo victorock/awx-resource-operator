@@ -1,0 +1,4 @@
+---
+- include_tasks: "{{ user_state }}"
+  vars:
+    user_state: "{{ user_spec_config.state | default('present') }}"

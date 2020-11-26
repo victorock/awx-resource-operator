@@ -1,0 +1,9 @@
+apiVersion: tower.ansible.com/v1alpha1
+kind: Module
+metadata:
+  name: exampleorganization
+  namespace: awx
+spec:
+  tower_auth_secret: tower_secret_map
+  name: "exampleorganization"
+  description: "sample organization"

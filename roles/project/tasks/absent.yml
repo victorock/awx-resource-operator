@@ -1,0 +1,15 @@
+---
+## TODO: Tasks to Delete dependent objects
+- name: Finalize project
+  include_role:
+    name: "module"
+  vars:
+    module_kind: "{{ project_spec }}"
+    module_metadata_namespace: "{{ project_spec }}"
+    module_metadata_name: "{{ project_spec }}"
+    module_api_version: "{{ project_spec }}"
+    module_spec: "{{ project_spec }}"
+    module_spec_name: "tower_project"
+    module_spec_secret: "{{ project_spec.secret }}"
+    module_spec_collection: "{{ project_spec.collection }}"
+    module_spec_parameters: "{{ project_spec.config }}"

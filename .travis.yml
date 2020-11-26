@@ -2,6 +2,7 @@
 services: docker
 language: python
 install:
+  # yamllint disable-line rule:line-length
   - pip3 install docker molecule ansible-lint yamllint flake8 openshift jmespath molecule-docker
 script:
   - molecule test -s test-local

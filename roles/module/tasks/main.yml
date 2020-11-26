@@ -1,0 +1,25 @@
+---
+- name: "Authentication Secret"
+  include_role:
+    name: "auth_caller"
+  vars:
+    auth_caller_api_version: "{{ module_api_version }}"
+    auth_caller_kind: "{{ module_kind }}"
+    auth_caller_meta_name: "{{ module_metadata_name }}"
+    auth_caller_meta_namespace: "{{ module_metadata_namespace }}"
+    auth_caller_secret: "{{ module_spec_secret }}"
+
+- name: "Generate module's task file"
+  template:
+    src: "module.j2"
+    dest: "{{ role_path }}/tasks/module.yml"
+  vars:
+    collection: "{{ module_spec_collection }}"
+    module: "{{ module_spec_name }}"
+    parameters: "{{ module_spec_parameters }}"
+
+- include_tasks: "{{ role_path }}/tasks/module.yml"
+  environment:
+    - TOWER_OAUTH_TOKEN: "{{ auth_secret_data.token }}"
+    - TOWER_HOST: "{{ auth_secret_data.token }}"
+    - TOWER_VERIFY_SSL: "{{ auth_secret_data.verify_ssl }}"

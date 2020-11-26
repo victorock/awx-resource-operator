@@ -1,0 +1,5 @@
+---
+- include_tasks: "{{ jobtemplate_state }}"
+  vars:
+    # yamllint disable-line rule:line-length
+    jobtemplate_state: "{{ jobtemplate_spec_config.state | default('present') }}"

@@ -1,0 +1,4 @@
+---
+- include_tasks: "{{ project_state }}"
+  vars:
+    project_state: "{{ project_spec_config.state | default('present') }}"

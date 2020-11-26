@@ -1,0 +1,15 @@
+---
+## TODO: Tasks to Delete dependent objects
+- name: Finalize job_template
+  include_role:
+    name: "module"
+  vars:
+    module_kind: "{{ job_template_spec }}"
+    module_metadata_namespace: "{{ job_template_spec }}"
+    module_metadata_name: "{{ job_template_spec }}"
+    module_api_version: "{{ job_template_spec }}"
+    module_spec: "{{ job_template_spec }}"
+    module_spec_name: "tower_job_template"
+    module_spec_secret: "{{ job_template_spec.secret }}"
+    module_spec_collection: "{{ job_template_spec.collection }}"
+    module_spec_parameters: "{{ job_template_spec.config }}"

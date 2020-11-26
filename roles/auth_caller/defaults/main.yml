@@ -1,0 +1,6 @@
+---
+auth_caller_kind: "Unknown"
+auth_caller_meta_name: "{{ ansible_operator_meta.name }}"
+auth_caller_meta_namespace: "{{ ansible_operator_meta.namespace }}"
+auth_caller_api_version: "v1alpha1"
+auth_caller_secret: "tower.ansible.com"

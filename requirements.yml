@@ -1,5 +1,6 @@
 ---
 collections:
+  - name: "ansible.builtin"
   - name: awx.awx
     version: ">=13.0.0"
   - name: community.kubernetes

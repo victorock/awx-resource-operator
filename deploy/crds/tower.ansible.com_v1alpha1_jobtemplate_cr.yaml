@@ -4,8 +4,9 @@ metadata:
   name: examplejobtemplate
   namespace: awx
 spec:
-  tower_auth_secret: toweraccess
-  job_template_name: ExampleJobTemplate
-  job_template_project: Demo Project
-  job_template_playbook: hello_world.yml
-  job_template_inventory: Demo Inventory
+  secret: toweraccess
+  config:
+    name: ExampleJobTemplate
+    project: Demo Project
+    playbook: hello_world.yml
+    inventory: Demo Inventory

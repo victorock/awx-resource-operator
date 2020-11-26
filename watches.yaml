@@ -1,18 +1,96 @@
 ---
 - version: v1alpha1
   group: tower.ansible.com
-  kind: JobTemplate
-  role: jobtemplate
-#  finalizer:
-#    name: finalizer.tower.ansible.com
-#    vars:
-#       tower_resource_state: absent
-- version: v1alpha1
-  group: tower.ansible.com
   kind: AnsibleJob
   role: job
-  watchDependentResources: True
+  watchDependentResources: true
 - version: v1alpha1
   group: tower.ansible.com
   kind: Module
-  role: module
+  role: job
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        parameters:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Organization
+  role: organization
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: User
+  role: user
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Team
+  role: team
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Credential
+  role: credential
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Project
+  role: project
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Inventory
+  role: inventory
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: JobTemplate
+  role: job_template
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"
+- version: v1alpha1
+  group: tower.ansible.com
+  kind: Permission
+  role: permission
+  finalizer:
+    name: finalizer.tower.ansible.com
+    vars:
+      finalize:
+        config:
+          state: "absent"

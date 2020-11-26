@@ -1,0 +1,4 @@
+---
+- include_tasks: "{{ organization_state }}"
+  vars:
+    organization_state: "{{ organization_spec_config.state | default('present') }}"

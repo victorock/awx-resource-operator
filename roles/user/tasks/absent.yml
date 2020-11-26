@@ -1,0 +1,15 @@
+---
+## TODO: Tasks to Delete dependent objects
+- name: Finalize user
+  include_role:
+    name: "module"
+  vars:
+    module_kind: "{{ user_spec }}"
+    module_metadata_namespace: "{{ user_spec }}"
+    module_metadata_name: "{{ user_spec }}"
+    module_api_version: "{{ user_spec }}"
+    module_spec: "{{ user_spec }}"
+    module_spec_name: "tower_user"
+    module_spec_secret: "{{ user_spec.secret }}"
+    module_spec_collection: "{{ user_spec.collection }}"
+    module_spec_parameters: "{{ user_spec.config }}"

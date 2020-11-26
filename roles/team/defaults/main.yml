@@ -1,0 +1,25 @@
+---
+## { "ansible_operator_meta": {
+##      "name": <object_name>,
+##      "namespace": <object_namespace>,
+##   },
+##   <cr_spec_fields_as_snake_case>,
+##   <watch vars>,
+##   <finalizer vars>,
+##   _<group_as_snake>_<kind>: {
+##       <cr_object> as is
+##   }
+##   _<group_as_snake>_<kind>_spec: {
+##       <cr_object.spec> as is
+##   }
+## }
+team_kind: "{{ _ansible_tower_com_team.kind }}"
+team_metadata_namespace: "{{ _ansible_tower_com_team.metadata.namespace }}"
+team_metadata_name: "{{ _ansible_tower_com_team.metadata.namespace }}"
+team_api_version: "{{ _ansible_tower_com_team.api_version }}"
+# Merge CR spec with finalize_config dictionary from watches.yaml
+team_spec: "{{ _ansible_tower_com_team_spec | combine(finalize_config|default({})) }}"
+team_spec_name: "{{ team_spec.name }}"
+team_spec_secret: "{{ team_spec.secret }}"
+team_spec_collection: "{{ team_spec.collection }}"
+team_spec_config: "{{ team_spec.config }}"
