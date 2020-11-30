@@ -8,18 +8,19 @@
     namespace: "{{ meta.namespace }}"
   register: k8s_job
 
-- block:
-  - name: Update AnsibleJob status with message
-    k8s_status:
-      api_version: tower.ansible.com/v1alpha1
-      kind: AnsibleJob
-      name: "{{ meta.name }}"
-      namespace: "{{ meta.namespace }}"
-      status:
-        # yamllint disable-line rule:line-length
-        message: "This job instance is already running or has reached its end state."
-  - name: End play early
-    meta: end_play
+- name: "Update AnsibleJob status with message"
+  block:
+    - name: Update AnsibleJob status with message
+      k8s_status:
+        api_version: tower.ansible.com/v1alpha1
+        kind: AnsibleJob
+        name: "{{ meta.name }}"
+        namespace: "{{ meta.namespace }}"
+        status:
+          # yamllint disable-line rule:line-length
+          message: "This job instance is already running or has reached its end state."
+    - name: End play early
+      meta: end_play
   when: k8s_job["resources"] is defined and (k8s_job["resources"]|length>0)
 
 - name: Read Secret Configuration
@@ -53,10 +54,11 @@
         created: true
         # yamllint disable-line rule:line-length
         message: |-
-          Monitor the job.batch status for more details with the following commands:
-          'kubectl -n {{meta.namespace}} get job.batch/{{meta.name}}'
-          'kubectl -n {{meta.namespace}} describe job.batch/{{meta.name}}'
-          'kubectl -n {{meta.namespace}} logs -f job.batch/{{meta.name}}'
+          Monitor the job.batch status for more details with
+          the following commands:
+            'kubectl -n {{meta.namespace}} get job.batch/{{meta.name}}'
+            'kubectl -n {{meta.namespace}} describe job.batch/{{meta.name}}'
+            'kubectl -n {{meta.namespace}} logs -f job.batch/{{meta.name}}'
         namespacedName: "{{meta.namespace+'/'+meta.name}}"
         env:
           inventory: "{{ inventory | default(omit) }}"

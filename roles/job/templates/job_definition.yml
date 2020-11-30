@@ -136,13 +136,13 @@ spec:
         image: "{{ lookup('env', 'RELATED_IMAGE_ANSIBLE_JOB_RUNNER_IMAGE') }}"
         env:
           - name: TOWER_OAUTH_TOKEN
-            value: "{{ tower_config_secret['resources'][0]['data']['token'] | b64decode }}"
+            value: "{{ auth_secret_data.token }}"
           - name: TOWER_HOST
-            value: "{{ tower_config_secret['resources'][0]['data']['host'] | b64decode }}"
+            value: "{{ auth_secret_data.host }}"
           - name: TOWER_JOB_TEMPLATE_NAME
             value: "{{ job_template_name }}"
           - name: TOWER_VERIFY_SSL
-            value: "False"
+            value: "{{ auth_secret_data.verify_ssl }}"
           - name: ANSIBLEJOB_NAME
             value: "{{ meta.name }}"
           - name: ANSIBLEJOB_NAMESPACE

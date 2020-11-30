@@ -1,0 +1,11 @@
+apiVersion: tower.ansible.com/v1alpha1
+kind: Inventory
+metadata:
+  name: examplejobtemplate
+  namespace: awx
+spec:
+  secret: toweraccess
+  config:
+    name: "Foo Inventory"
+    description: "Our Foo Cloud Servers"
+    organization: "Bar Org"

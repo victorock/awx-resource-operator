@@ -6,16 +6,21 @@ metadata:
 spec:
   group: tower.ansible.com
   names:
-    kind: JobTemplate
+    kind: JobTemplates
     listKind: JobTemplateList
     plural: jobtemplates
     singular: jobtemplate
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
   scope: Namespaced
   subresources:
     status: {}
   validation:
     openAPIV3Schema:
-      description: Schema validation for the Tower Job Template CRD
+      description: Schema validation for the Tower JobTemplate CRD.
       properties:
         apiVersion:
           type: string
@@ -25,23 +30,50 @@ spec:
           type: object
         spec:
           properties:
-            job_template_inventory:
+            secret:
               type: string
-            job_template_name:
+            collection:
               type: string
-            job_template_playbook:
-              type: string
-            job_template_project:
-              type: string
-            tower_auth_secret:
-              type: string
+              enum:
+                - "awx.awx"
+                - "ansible.tower"
+              default: "awx.awx"
+              description: |
+                Module's collection.
+            vars:
+              description: |
+                Variable definitions for reuse as config in the CR.
+                Examples:             
+                  vars:
+                    # Example of query to fetch secret data (use base64decode).
+                    k8s_secret_data: "{{ 
+                      lookup(
+                        'community.kubernetes.k8s',
+                        kind='Secret',
+                        namespace='awx',
+                        resource_name='credential:victorock-github.com'
+                      )[0]['data']
+                    }}"
+                    # Example of query to fetch ConfigMap
+                    k8s_configmap_data: "{{ 
+                      lookup(
+                        'community.kubernetes.k8s',
+                        kind='ConfigMap',
+                        namespace='awx',
+                        resource_name='tower:settings'
+                      )[0]['data']
+                    }}"
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
+            config:
+              description: |
+                List of parameters of each module:
+                 https://docs.ansible.com/ansible/latest/collections/awx/awx/index.html#modules
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
           required:
-          - tower_auth_secret
+          - secret
+          - config
           type: object
       type: object
       x-kubernetes-preserve-unknown-fields: true
-  version: v1alpha1
-  versions:
-  - name: v1alpha1
-    served: true
-    storage: true

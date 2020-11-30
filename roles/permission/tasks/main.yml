@@ -1,4 +1,0 @@
----
-- include_tasks: "{{ permission_state }}"
-  vars:
-    permission_state: "{{ permission_spec_config.state | default('present') }}"

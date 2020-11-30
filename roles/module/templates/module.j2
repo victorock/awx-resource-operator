@@ -1,3 +1,6 @@
 ---
-- name: "{{ module }}"
-  {{ collection }}.{{ module }}: "{{ '{{' }} parameters {{ '|' }} {{ 'mandatory' }} {{ '}}' }}"
+- name: "{{ module_name }}"
+  {{ module_collection }}.{{ module_name }}: "{{ module_parameters | to_json }}"
+{%  if module_vars|length > 0 %}
+  vars: "{{ module_vars | to_json }}"
+{%  endif %}

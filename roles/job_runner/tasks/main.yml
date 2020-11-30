@@ -12,7 +12,9 @@
   block:
     - awx.awx.tower_job_launch:
         job_template: "{{ lookup('env','TOWER_JOB_TEMPLATE_NAME') }}"
+        # yamllint disable-line rule:line-length
         extra_vars: "{{ ansible_job['resources'][0]['spec']['extra_vars'] | default(omit) }}"
+        # yamllint disable-line rule:line-length
         inventory: "{{ ansible_job['resources'][0]['spec']['inventory'] | default(omit) }}"
       register: job
   rescue:
@@ -49,6 +51,7 @@
         changed: "{{ job.changed }}"
         failed: "{{ job.failed }}"
         status: "{{ job.status }}"
+        # yamllint disable-line rule:line-length
         url: "{{lookup('env', 'TOWER_HOST') + '/#/jobs/playbook/' + (job.id|string)}}"
 
 - name: Wait for the tower job if error update AnsibleJob status then end play

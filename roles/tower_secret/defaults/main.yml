@@ -1,0 +1,5 @@
+---
+# yamllint disable-line rule:line-length
+tower_secret_name: "tower.ansible.com"
+# yamllint disable-line rule:line-length
+tower_secret_namespace: "{{ ansible_operator_meta.namespace }}"

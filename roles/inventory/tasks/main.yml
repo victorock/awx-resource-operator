@@ -1,4 +1,0 @@
----
-- include_tasks: "{{ inventory_state }}"
-  vars:
-    inventory_state: "{{ inventory_spec_config.state | default('present') }}"

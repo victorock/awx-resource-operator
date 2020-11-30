@@ -30,7 +30,7 @@ spec:
           type: object
         spec:
           properties:
-            tower_auth_secret:
+            secret:
               type: string
             collection:
               type: string
@@ -83,6 +83,31 @@ spec:
                 - tower_workflow_job_template
                 - tower_workflow_launch
                 - tower_workflow_template
+            vars:
+              description: |
+                Variable definitions for reuse as config in the CR.
+                Examples:             
+                  vars:
+                    # Example of query to fetch secret data (use base64decode).
+                    k8s_secret_data: "{{ 
+                      lookup(
+                        'community.kubernetes.k8s',
+                        kind='Secret',
+                        namespace='awx',
+                        resource_name='credential:victorock-github.com'
+                      )[0]['data']
+                    }}"
+                    # Example of query to fetch ConfigMap
+                    k8s_configmap_data: "{{ 
+                      lookup(
+                        'community.kubernetes.k8s',
+                        kind='ConfigMap',
+                        namespace='awx',
+                        resource_name='tower:settings'
+                      )[0]['data']
+                    }}"
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
             parameters:
               description: |
                 List of parameters of each module:
@@ -90,7 +115,7 @@ spec:
               type: object
               x-kubernetes-preserve-unknown-fields: true
           required:
-          - tower_auth_secret
+          - secret
           - name
           - parameters
           type: object

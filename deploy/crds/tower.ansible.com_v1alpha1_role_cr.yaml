@@ -1,0 +1,12 @@
+apiVersion: tower.ansible.com/v1alpha1
+kind: Role
+metadata:
+  name: examplerole
+  namespace: awx
+spec:
+  secret: toweraccess
+  config:
+    user: jdoe
+    target_team: "My Team"
+    role: member
+    state: present

@@ -1,0 +1,29 @@
+---
+apiVersion: tower.ansible.com/v1alpha1
+kind: User
+metadata:
+  name: exampleuser
+  namespace: awx
+spec:
+  secret: toweraccess
+  vars:
+    ## Query Secret CR in kubernetes and associate
+    ## its value to variable `k8s_secret_data`
+    ## This process ensure that when Secret CR is updated,
+    ## these values will cascade to Tower during reconcile.
+    k8s_secret_data: "{{ 
+      lookup(
+        'community.kubernetes.k8s',
+        kind='Secret',
+        namespace='awx',
+        resource_name='credential:example-github.com'
+      )[0]['data']
+    }}"
+
+  config:
+    username: "{{ k8s_secret_data.username | base64decode }}"
+    password: "{{ k8s_secret_data.password | base64decode }}"
+    first_name: "{{ k8s_secret_data.first_name | base64decode }}"
+    last_name: "{{ k8s_secret_data.last_name | base64decode or default('Unknown') }}"
+    email: "{{ k8s_secret_data.email | base64decode or default('none@example.com') }}"
+    superuser: "{{ k8s_secret_data.password | base64decode or default('False') }}"

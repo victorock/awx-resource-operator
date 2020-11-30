@@ -2,14 +2,14 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: jobtemplates.tower.ansible.com
+  name: roles.tower.ansible.com
 spec:
   group: tower.ansible.com
   names:
-    kind: JobTemplates
-    listKind: JobTemplateList
-    plural: jobtemplates
-    singular: jobtemplate
+    kind: Roles
+    listKind: RoleList
+    plural: roles
+    singular: role
   version: v1alpha1
   versions:
   - name: v1alpha1
@@ -18,9 +18,9 @@ spec:
   scope: Namespaced
   subresources:
     status: {}
-  validation:
+    validation:
     openAPIV3Schema:
-      description: Schema validation for the Tower JobTemplate CRD.
+      description: Schema validation for the Tower Role CRD.
       properties:
         apiVersion:
           type: string

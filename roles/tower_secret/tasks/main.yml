@@ -1,0 +1,33 @@
+---
+- name: Fetch Secret Record
+  k8s_info:
+    kind: Secret
+    namespace: "{{ tower_secret_namespace }}"
+    name: "{{ tower_secret_name }}"
+  register: _tower_secret_record
+
+- name: Assert Secret resources
+  ansible.builtin.assert:
+    that:
+      - _tower_secret_record["resources"] is defined and (_tower_secret_record["resources"]|length>0)
+    fail_msg: "Tower Secret must exists"
+
+- name: Assert Secret Host
+  ansible.builtin.assert:
+    that:
+      - _tower_secret_record['resources'][0]['data']['host'] is defined
+    fail_msg: "Tower Host must exist"
+
+- name: Assert Secret token
+  ansible.builtin.assert:
+    that:
+      - _tower_secret_record['resources'][0]['data']['token'] is defined
+    fail_msg: "Tower Token must exist"
+
+- name: Set Secret Data (b64decoded)
+  ansible.builtin.set_fact:
+    tower_secret_data:
+      host: "{{ _tower_secret_record['resources'][0]['data']['host'] | b64decode }}"
+      token: "{{ _tower_secret_record['resources'][0]['data']['token'] | b64decode }}"
+      # ZmFsc2U= is 'False' decoded in b64
+      verify_ssl: "{{ _tower_secret_record['resources'][0]['data']['verify_ssl'] | default('ZmFsc2U=') | b64decode }}"

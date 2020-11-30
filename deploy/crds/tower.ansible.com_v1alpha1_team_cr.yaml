@@ -1,0 +1,12 @@
+---
+apiVersion: tower.ansible.com/v1alpha1
+kind: Team
+metadata:
+  name: exampleteam
+  namespace: awx
+spec:
+  secret: toweraccess
+  config:
+    name: Team Name
+    description: Team Description
+    organization: test-org

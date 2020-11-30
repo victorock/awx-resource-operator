@@ -1,9 +1,15 @@
 apiVersion: tower.ansible.com/v1alpha1
-kind: Module
+kind: Organization
 metadata:
   name: exampleorganization
   namespace: awx
 spec:
-  tower_auth_secret: tower_secret_map
-  name: "exampleorganization"
-  description: "sample organization"
+  secret: toweraccess
+  config:
+    ## Variable create by operator-sdk for ansible.
+    ##   _<group_as_snake>_<kind>: {
+    ##       <cr_object> as is
+    ##   }
+    name: "{{ _ansible_tower_com_organization.metadata.name }}"
+    description: "Foo bar organization using foo-venv"
+    custom_virtualenv: "/var/lib/awx/venv/foo-venv/"

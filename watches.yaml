@@ -86,8 +86,8 @@
           state: "absent"
 - version: v1alpha1
   group: tower.ansible.com
-  kind: Permission
-  role: permission
+  kind: Role
+  role: role
   finalizer:
     name: finalizer.tower.ansible.com
     vars:

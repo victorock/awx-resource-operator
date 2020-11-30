@@ -1,25 +1,64 @@
 ---
-- name: "Authentication Secret"
-  include_role:
-    name: "auth_caller"
-  vars:
-    auth_caller_api_version: "{{ module_api_version }}"
-    auth_caller_kind: "{{ module_kind }}"
-    auth_caller_meta_name: "{{ module_metadata_name }}"
-    auth_caller_meta_namespace: "{{ module_metadata_namespace }}"
-    auth_caller_secret: "{{ module_spec_secret }}"
+- name: "Assert variables"
+  assert:
+    that:
+      - module_api_version is defined
+      - module_api_version is string
+      - module_kind is defined
+      - module_kind is string
+      - module_spec_collection is defined
+      - module_spec_collection is in ['awx.awx', 'ansible.tower']
+      - module_spec_name is defined
+      - module_spec_name is string
+      - module_spec_parameters is defined
+      - module_spec_parameters is mapping
+      - module_spec_vars is defined
+      - module_spec_vars is mapping
 
-- name: "Generate module's task file"
+- name: "Gather Tower Secret"
+  include_role:
+    name: "tower_secret"
+  vars:
+    tower_secret_name: "{{ module_spec_secret }}"
+    tower_secret_namespace: "{{ module_metadata_namespace }}"
+
+- name: "Annotate CR with tower.ansible.com/host"
+  k8s:
+    definition:
+      apiVersion: "{{ module_api_version }}"
+      kind: "{{ module_kind }}"
+      metadata:
+        name: "{{ module_metadata_name }}"
+        namespace: "{{ module_metadata_namespace }}"
+        annotations:
+          "tower.ansible.com/host": "{{ tower_secret_data.host }}"
+
+- name: "Generate static module's task file"
   template:
     src: "module.j2"
     dest: "{{ role_path }}/tasks/module.yml"
   vars:
-    collection: "{{ module_spec_collection }}"
-    module: "{{ module_spec_name }}"
-    parameters: "{{ module_spec_parameters }}"
+    module_collection: "{{ module_spec_collection }}"
+    module_name: "{{ module_spec_name }}"
+    module_parameters: "{{ module_spec_parameters }}"
+    module_vars: "{{ module_spec_vars }}"
 
-- include_tasks: "{{ role_path }}/tasks/module.yml"
+- name: "Call module's task"
+  include_tasks: "{{ role_path }}/tasks/module.yml"
   environment:
-    - TOWER_OAUTH_TOKEN: "{{ auth_secret_data.token }}"
-    - TOWER_HOST: "{{ auth_secret_data.token }}"
-    - TOWER_VERIFY_SSL: "{{ auth_secret_data.verify_ssl }}"
+    - TOWER_OAUTH_TOKEN: "{{ tower_secret_data.token }}"
+    - TOWER_HOST: "{{ tower_secret_data.host }}"
+    - TOWER_VERIFY_SSL: "{{ tower_secret_data.verify_ssl }}"
+
+- name: "Label CR with tower.ansible.com/organization"
+  k8s:
+    definition:
+      apiVersion: "{{ module_api_version }}"
+      kind: "{{ module_kind }}"
+      metadata:
+        name: "{{ module_metadata_name }}"
+        namespace: "{{ module_metadata_namespace }}"
+        labels:
+          # yamllint disable-line rule:line-length
+          "tower.ansible.com/organization": "{{ module_spec_parameters.organization }}"
+  when: "module_spec_parameters.organization is defined"

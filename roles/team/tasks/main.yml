@@ -1,4 +1,0 @@
----
-- include_tasks: "{{ team_state }}"
-  vars:
-    team_state: "{{ team_spec_config.state | default('present') }}"

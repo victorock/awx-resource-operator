@@ -1,2 +1,3 @@
+---
 collections:
-- operator_sdk.util
+  - name: operator_sdk.util

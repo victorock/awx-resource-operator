@@ -73,6 +73,34 @@ spec:
       name: jobtemplates.tower.ansible.com
       version: v1alpha1
       displayName: Ansible Job Template
+    - kind: Credential
+      name: credentials.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Credential
+    - kind: Inventory
+      name: inventories.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Inventory
+    - kind: Module
+      name: moduless.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Module
+    - kind: Organization
+      name: organizations.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Organization
+    - kind: Role
+      name: roles.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Role
+    - kind: Teams
+      name: teams.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible Team
+    - kind: User
+      name: users.tower.ansible.com
+      version: v1alpha1
+      displayName: Ansible User
   description: The purpose of this Operator is to allow managing Ansible Platform job resources that can interface with any infrastructure whether it be on an Openshift cluster or traditional infrastructure running off-cluster.
   displayName: Ansible Automation Platform Resource Operator
   icon:
@@ -204,8 +232,8 @@ spec:
                 - name: ANSIBLE_DEBUG_LOGS
                   value: "True"
                 - name: RELATED_IMAGE_ANSIBLE_JOB_RUNNER_IMAGE
-                  value: quay.io/open-cluster-management/platform-resource-runner:latest
-                image: quay.io/open-cluster-management/platform-resource-operator:latest
+                  value: quay.io/victorock/platform-resource-runner:latest
+                image: quay.io/victorock/platform-resource-operator:latest
                 imagePullPolicy: Always
                 name: tower-resource-operator
                 resources: {}
